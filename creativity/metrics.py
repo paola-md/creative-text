@@ -25,7 +25,7 @@ def compute_flexibility(found_topics, similarity_matrix):
 
   If there is only one element it will return zero
   """
-  global_similarity = 1
+  global_similarity = 0
 
 
   if len(found_topics)>1:
@@ -37,6 +37,8 @@ def compute_flexibility(found_topics, similarity_matrix):
 
       topic_similarity = topic_similarity/len(other_topics)
       global_similarity += topic_similarity/len(found_topics)
+  else:
+    global_similarity = 1
 
 
   return 1 - global_similarity
