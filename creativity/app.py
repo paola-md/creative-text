@@ -8,7 +8,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import json
 import numpy as np
 from .topics import get_metrics
-
+from .load_model import get_models
+import os.path
 
 class Source(BaseModel):
     text: str
@@ -38,6 +39,19 @@ app.add_middleware(
 def wake_up():
     thankyou=1
     return thankyou
+
+@app.get("/models")
+def load_models():
+    response = "Error"
+    # check if file exists
+    if os.path.isfile('./models/climate_change_model'):
+        response = "Files exists"
+    else:
+        get_models()
+        response = "Downloaded files"
+    return response
+
+
 
 @app.post("/creativity/")
 def complete_test(source: Source):
