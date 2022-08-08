@@ -1,9 +1,18 @@
 
 
+from sentence_transformers import SentenceTransformer
 from bertopic import BERTopic
-from .metrics import get_fluency, get_flexibility, get_originality
+from bertopic.backend._utils import select_backend
 
-climate_model = BERTopic.load("./models/climate_change_model")
+from .metrics import get_fluency, get_flexibility, get_originality
+from .load_model import get_models
+
+# load models globally
+#get_models()
+sentence_model = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+model = select_backend(sentence_model)
+climate_model = BERTopic.load("./creativity/models/model_climate_change", embedding_model=model)
+
 
 def preprocess(text):
   sentences = text.split('.') 
