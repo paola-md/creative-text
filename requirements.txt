@@ -1,3 +1,4 @@
+uvicorn
 bertopic==0.11.0
 fastapi
 gdown
