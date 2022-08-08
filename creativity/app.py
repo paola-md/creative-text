@@ -19,6 +19,7 @@ class Answer(BaseModel):
     fluency: float
     flexibility: float
     originality: float
+    topics: List[int]
 
 
 app = FastAPI()
@@ -52,6 +53,21 @@ def load_models():
     return response
 
 
+@app.get("/get-creativity/{text}")
+def complete_test(text):
+    
+    print(text)
+
+    fluency, flexibility, originality, topics  = get_metrics(text, dataset = "climate_change")
+    print(fluency, flexibility, originality)
+
+    answer = Answer(fluency=fluency, 
+                    flexibility= flexibility, 
+                    originality=originality,
+                    topics = list(topics)
+    )
+    return answer
+
 
 @app.post("/creativity/")
 def complete_test(source: Source):
@@ -61,16 +77,7 @@ def complete_test(source: Source):
     fluency, flexibility, originality  = get_metrics(text, dataset = source.dataset)
     print(fluency, flexibility, originality)
 
-    answer = Answer(fluency, flexibility, originality)
+    answer = Answer(fluency=fluency, 
+    flexibility= flexibility, originality=originality)
     return answer
 
-@app.get("/get-creativity/{text}")
-def complete_test(text):
-    
-    print(text)
-
-    fluency, flexibility, originality  = get_metrics(text, dataset = "climate_change")
-    print(fluency, flexibility, originality)
-
-    answer = Answer(fluency, flexibility, originality)
-    return answer
