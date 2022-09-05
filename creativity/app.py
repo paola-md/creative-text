@@ -7,8 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import json
 import numpy as np
-#from .topics import get_metrics
-#from .load_model import get_models
+from .topics import get_metrics
+from .load_model import get_models
 import os.path
 
 class Source(BaseModel):
@@ -48,7 +48,7 @@ def load_models():
     if os.path.isfile('./models/climate_change_model'):
         response = "Files exists"
     else:
-        #get_models()
+        get_models()
         response = "Downloaded files"
     return response
 
@@ -60,7 +60,7 @@ def complete_test(source: Source):
     text = source.text
     print(text)
 
-    fluency, flexibility, originality, topics  =  1,1,1,[1]#get_metrics(text, dataset = "climate_change")
+    fluency, flexibility, originality, topics  =  get_metrics(text, dataset = "climate_change")
     print(fluency, flexibility, originality)
 
     answer = Answer(fluency=fluency, 
