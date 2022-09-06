@@ -1,3 +1,17 @@
+  sudo docker build -t creative_text_image .
+
+  sudo docker run -p 8000:8000 --name creative_text_container --rm -ti creative_text_image
+
+  aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin 951661100876.dkr.ecr.eu-central-1.amazonaws.com
+
+  sudo docker build -t creative-text .
+
+  sudo docker tag creative-text:latest 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+
+  sudo docker push 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+
+
+
 * To run locally:
   * Go to folder:
     * Activate env: conda activate app-env
@@ -5,8 +19,6 @@
   * Test (http://127.0.0.1:8000/docs)
 
 * Then add changes to github and they get automatically deployed. 
-
-
 
 
 REPO_URL=paolamedo/creativity
@@ -57,3 +69,13 @@ docker run --rm -it -e GRANT_SUDO=yes \
 -e JUPYTER_TOKEN="easy" \
 -v $HOME/.chef:/home/jovyan/.chef:ro \
 -v $BUILD_DIR:/home/jovyan/work $REPO_URL
+
+
+
+
+
+
+
+
+
+
