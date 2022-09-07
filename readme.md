@@ -1,16 +1,29 @@
-  sudo docker build -t creative_text_image .
+# New Readme
 
-  sudo docker run -p 8000:8000 --name creative_text_container --rm -ti creative_text_image
+# Local run
 
-  aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin 951661100876.dkr.ecr.eu-central-1.amazonaws.com
+    sudo docker build -t creative-text .
+    sudo docker run -p 80:80 --name creative-text --rm -ti creative-text
 
-  sudo docker build -t creative-text .
+# Push to ECR
 
-  sudo docker tag creative-text:latest 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+(First configure with `aws configure` to add account keys), then login with :
 
-  sudo docker push 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+Without TTY terminal :
 
+    sudo docker login -u AWS -p $(aws ecr get-login-password --region eu-central-1) 951661100876.dkr.ecr.eu-central-1.amazonaws.com
 
+With TTY terminal :
+
+    aws ecr get-login-password --region eu-central-1 | sudo docker login --username AWS --password-stdin 951661100876.dkr.ecr.eu-central-1.amazonaws.com
+
+Then push with :
+
+    sudo docker tag creative-text:latest 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+
+    sudo docker push 951661100876.dkr.ecr.eu-central-1.amazonaws.com/creative-text:latest
+
+# (Old Readme)
 
 * To run locally:
   * Go to folder:
@@ -69,13 +82,3 @@ docker run --rm -it -e GRANT_SUDO=yes \
 -e JUPYTER_TOKEN="easy" \
 -v $HOME/.chef:/home/jovyan/.chef:ro \
 -v $BUILD_DIR:/home/jovyan/work $REPO_URL
-
-
-
-
-
-
-
-
-
-
